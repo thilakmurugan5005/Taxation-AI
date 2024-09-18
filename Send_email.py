@@ -34,6 +34,5 @@ def send_email_with_attachment(receiver_email, zip_buffer):
         text = msg.as_string()
         server.sendmail(email_address, receiver_email, text)
         server.quit()
-        st.success(f"Email sent successfully to {receiver_email}")
     except Exception as e:
         st.error(f"Failed to send email: {str(e)}")
