@@ -1,9 +1,0 @@
-PyPDF2
-langchain
-llama-index
-llama.index
-faiss-cpu
-streamlit
-llama-index-llms-langchain
-langchain_community
-langchain_openai
