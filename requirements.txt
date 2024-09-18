@@ -1,4 +1,4 @@
-openai
+openai==0.28
 PyPDF2
 langchain_openai
 streamlit
