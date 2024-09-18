@@ -59,6 +59,7 @@ def get_details(pdf_docs):
     for pdf in pdf_docs:
         pdf_text = extract_text_from_pdf(pdf)
         llm_output = extract_keywords_from_invoice(pdf_text)
+        print("LLM_output",llm_output)
         parsed_data = parse_extracted_data(llm_output)
         parsed_data['File Name'] = pdf.name
         extracted_data.append(parsed_data)
