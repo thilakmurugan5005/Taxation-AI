@@ -1,3 +1,9 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+from email.mime.text import MIMEText
+
 def send_email_with_attachment(receiver_email, zip_buffer):
     """Send an email with the attached ZIP file."""
     # Create the email content
