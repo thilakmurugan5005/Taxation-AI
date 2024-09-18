@@ -4,6 +4,9 @@ from email.mime.base import MIMEBase
 from email import encoders
 from email.mime.text import MIMEText
 
+email_address = st.secrets["EMAIL_ADDRESS"]
+email_password = st.secrets["EMAIL_PASSWORD"]
+
 def send_email_with_attachment(receiver_email, zip_buffer):
     """Send an email with the attached ZIP file."""
     # Create the email content
