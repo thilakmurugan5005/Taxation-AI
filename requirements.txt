@@ -1,6 +1,0 @@
-openai==0.28
-PyPDF2
-streamlit
-langchain
-langchain_community
-pandas
