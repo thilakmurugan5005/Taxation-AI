@@ -1,4 +1,4 @@
-openai migrate
+openai
 PyPDF2
 langchain_openai
 streamlit
