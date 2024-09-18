@@ -1,3 +1,5 @@
+from PyPDF2 import PdfReader
+
 def extract_text_from_pdf(pdf):
     pdf_reader = PdfReader(pdf)
     text = ""
