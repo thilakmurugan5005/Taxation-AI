@@ -111,13 +111,13 @@ def main():
             summary_df = pd.DataFrame(financial_summary)
 
             # Format the "Total_Amount" column with $ sign in each DataFrame
-            income_table = add_dollar_sign(income_table)
-            expenses_table = add_dollar_sign(expenses_table)
+            income_data = add_dollar_sign(income_data)
+            expenses_data = add_dollar_sign(expenses_data)
             summary_df = add_dollar_sign(summary_df)
 
             # Convert DataFrames to CSV
-            income_csv = convert_df_to_csv(income_table)
-            expenses_csv = convert_df_to_csv(expenses_table)
+            income_csv = convert_df_to_csv(income_data)
+            expenses_csv = convert_df_to_csv(expenses_data)
             summary_csv = convert_df_to_csv(summary_df)
 
             # Zip the files
