@@ -3,11 +3,7 @@ import os
 
 
 
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
-from email.mime.text import MIMEText
+
 from Send_email import send_email_with_attachment
 from Functions import *
 
