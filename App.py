@@ -30,17 +30,15 @@ def main():
         if st.button("Submit & Process", key="process_button"):
             if expenses_pdf_docs and income_pdf_docs:
                 with st.spinner("Processing..."):
-                    total_income, income_data, income_table = get_details(income_pdf_docs)
-                    total_expenses, expenses_data, expenses_table = get_details(expenses_pdf_docs)
+                    total_income, income_data = get_details(income_pdf_docs)
+                    total_expenses, expenses_data = get_details(expenses_pdf_docs)
                     
 
                     # Store results in session state
                     st.session_state.total_income = total_income
                     st.session_state.income_data = income_data
-                    st.session_state.income_table = income_table
                     st.session_state.total_expenses = total_expenses
                     st.session_state.expenses_data = expenses_data
-                    st.session_state.expenses_table = expenses_table
                     
 
                 st.success("Processing Complete")
@@ -71,9 +69,9 @@ def main():
 
             # Retrieve financial data
             total_income = st.session_state.total_income
-            income_table = st.session_state.income_table
+            income_data = st.session_state.income_data
             total_expenses = st.session_state.total_expenses
-            expenses_table = st.session_state.expenses_table
+            expenses_data = st.session_state.expenses_data
             
             
 
