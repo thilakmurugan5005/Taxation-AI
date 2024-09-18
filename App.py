@@ -68,11 +68,11 @@ def main():
         st.subheader("Financial Summary")
         with st.spinner("Calculating... 🔄"):
             
+
+            # Retrieve financial data
             total_income = st.session_state.total_income
-            income_data = st.session_state.income_data
             income_table = st.session_state.income_table
             total_expenses = st.session_state.total_expenses
-            expenses_data = st.session_state.expenses_data
             expenses_table = st.session_state.expenses_table
             
             
@@ -111,6 +111,11 @@ def main():
             }
 
             summary_df = pd.DataFrame(financial_summary)
+
+            # Format the "Total_Amount" column with $ sign in each DataFrame
+            income_table = add_dollar_sign(income_table)
+            expenses_table = add_dollar_sign(expenses_table)
+            summary_df = add_dollar_sign(summary_df)
 
             # Convert DataFrames to CSV
             income_csv = convert_df_to_csv(income_table)
