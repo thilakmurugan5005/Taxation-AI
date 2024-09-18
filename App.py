@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 
-from io import BytesIO
+
 import zipfile
 import smtplib
 from email.mime.multipart import MIMEMultipart
