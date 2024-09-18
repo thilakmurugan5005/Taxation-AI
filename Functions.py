@@ -3,6 +3,7 @@ import openai
 import pandas as pd
 import streamlit as st
 from io import BytesIO
+import zipfile
 
 api_key = st.secrets["OPENAI_API_KEY"]
 
