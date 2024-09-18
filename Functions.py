@@ -63,11 +63,10 @@ def get_details(pdf_docs):
         parsed_data = parse_extracted_data(llm_output)
         parsed_data['File Name'] = pdf.name
         extracted_data.append(parsed_data)
-    table = pd.DataFrame(extracted_data)
-    df = table
+    df = pd.DataFrame(extracted_data)
     df['Total_Amount'] = df["Total_Amount"].apply(extract_cost)
     total = df['Total_Amount'].sum()
-    return total, df, table
+    return total, df
 
 def add_dollar_sign(df):
     if "Total_Amount" in df.columns:
