@@ -35,8 +35,9 @@ def extract_keywords_from_invoice(invoice_text):
          "content": f"Extract the following information from the invoice:\n- Invoice Number\n- Vendor Name\n- Total Amount\n- Invoice Date\n\nInvoice content:\n{invoice_text}"}
     ]
 
-    response = openai.chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
+        api_key =api_key,
         messages=messages,
         max_tokens=500
     )
