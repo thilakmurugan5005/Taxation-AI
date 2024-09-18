@@ -4,3 +4,4 @@ langchain_openai
 streamlit
 langchain
 langchain_community
+pip install --upgrade pip
