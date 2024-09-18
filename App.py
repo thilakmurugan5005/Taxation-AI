@@ -30,14 +30,17 @@ def main():
         if st.button("Submit & Process", key="process_button"):
             if expenses_pdf_docs and income_pdf_docs:
                 with st.spinner("Processing..."):
-                    total_expenses, expenses_data = get_details(expenses_pdf_docs)
-                    total_income, income_data = get_details(income_pdf_docs)
+                    total_income, income_data, income_table = get_details(income_pdf_docs)
+                    total_expenses, expenses_data, expenses_table = get_details(expenses_pdf_docs)
+                    
 
                     # Store results in session state
                     st.session_state.total_income = total_income
                     st.session_state.income_data = income_data
+                    st.session_state.income_table = income_table
                     st.session_state.total_expenses = total_expenses
                     st.session_state.expenses_data = expenses_data
+                    st.session_state.income_table = income_table
                     
 
                 st.success("Processing Complete")
@@ -64,10 +67,15 @@ def main():
     if "total_expenses" in st.session_state and "total_income" in st.session_state:
         st.subheader("Financial Summary")
         with st.spinner("Calculating... 🔄"):
-            total_expenses = st.session_state.total_expenses
+            
             total_income = st.session_state.total_income
-            expenses_data = st.session_state.expenses_data
             income_data = st.session_state.income_data
+            income_table = st.session_state.income_table
+            total_expenses = st.session_state.total_expenses
+            expenses_data = st.session_state.expenses_data
+            expenses_table = st.session_state.total_table
+            
+            
 
             net_income = total_income - total_expenses
             tax, tax_percentage = get_tax_bracket(net_income)
@@ -105,8 +113,8 @@ def main():
             summary_df = pd.DataFrame(financial_summary)
 
             # Convert DataFrames to CSV
-            income_csv = convert_df_to_csv(income_data)
-            expenses_csv = convert_df_to_csv(expenses_data)
+            income_csv = convert_df_to_csv(income_table)
+            expenses_csv = convert_df_to_csv(expenses_table)
             summary_csv = convert_df_to_csv(summary_df)
 
             # Zip the files
