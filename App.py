@@ -16,7 +16,7 @@ api_key = st.secrets["OPENAI_API_KEY"]
 email_address = st.secrets["EMAIL_ADDRESS"]
 email_password = st.secrets["EMAIL_PASSWORD"]
 
-st.set_page_config(page_title="Taxation-AI", layout="wide")
+st.set_page_config(page_title="Docurative AI", layout="wide")
 
 
 def extract_text_from_pdf(pdf):
@@ -36,7 +36,7 @@ def extract_keywords_from_invoice(invoice_text):
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        api_key =api_key,
+        api_key=api_key,
         messages=messages,
         max_tokens=500
     )
@@ -138,13 +138,15 @@ def main():
 
     with st.sidebar:
         st.title("Invoices - Income")
-        income_pdf_docs = st.file_uploader("Upload your Income Invoice PDF Files",
+         income_pdf_docs = st.file_uploader("Upload your Income Invoice PDF Files",
                                              accept_multiple_files=True, key="pdf_uploader")
 
         st.title("Invoices - Expense")
         expenses_pdf_docs = st.file_uploader("Upload your Expense Invoice PDF Files",
                                            accept_multiple_files=True, key="pdf_uploader1")
 
+        # Input field for email
+        # receiver_email = st.text_input("Enter your email address to receive the ZIP file")
 
         if st.button("Submit & Process", key="process_button"):
             if expenses_pdf_docs and income_pdf_docs:
