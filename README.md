@@ -1,5 +1,7 @@
 # Taxation-AI
 
+## Try it out: https://thilakmurugan-taxation-ai.streamlit.app/
+
 ## Project Overview
 - Taxation-AI is an AI-powered solution designed to provide financial summaries based on user-uploaded tax documents or invoices. Leveraging generative AI technology, this project automates the process of extracting key financial details such as gross income, net income, and estimated tax liabilities.
 
