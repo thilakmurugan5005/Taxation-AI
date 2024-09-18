@@ -34,10 +34,11 @@ def main():
                     total_income, income_data = get_details(income_pdf_docs)
 
                     # Store results in session state
-                    st.session_state.total_expenses = total_expenses
-                    st.session_state.expenses_data = expenses_data
                     st.session_state.total_income = total_income
                     st.session_state.income_data = income_data
+                    st.session_state.total_expenses = total_expenses
+                    st.session_state.expenses_data = expenses_data
+                    
 
                 st.success("Processing Complete")
                 st.session_state.intro_shown = True  # Set to True after processing
@@ -98,7 +99,7 @@ def main():
                 "Total Expenses": [total_expenses],
                 "Net Income": [net_income],
                 "Tax Owed": [tax_owed],
-                "After-Tax Income(Profit)": [after_tax_income]
+                "After-Tax Income(Profit)": [net_income - (net_income * tax)]
             }
 
             summary_df = pd.DataFrame(financial_summary)
@@ -110,9 +111,9 @@ def main():
 
             # Zip the files
             zip_buffer = zip_files({
-                "income_data.csv": income_csv,
-                "expenses_data.csv": expenses_csv,
-                "financial_summary.csv": summary_csv
+                "Income_data.csv": income_csv,
+                "Expenses_data.csv": expenses_csv,
+                "Financial_summary.csv": summary_csv
             })
 
             # Download button for ZIP file
