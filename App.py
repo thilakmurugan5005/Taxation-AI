@@ -73,7 +73,7 @@ def main():
             income_table = st.session_state.income_table
             total_expenses = st.session_state.total_expenses
             expenses_data = st.session_state.expenses_data
-            expenses_table = st.session_state.total_table
+            expenses_table = st.session_state.expenses_table
             
             
 
