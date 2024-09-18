@@ -69,24 +69,10 @@ def get_details(pdf_docs):
     total = df['Total_Amount'].sum()
     return total, df, table
 
-#def get_details(pdf_docs):
-    #extracted_data = []
-    #for pdf in pdf_docs:
-        #pdf_text = extract_text_from_pdf(pdf)
-        #llm_output = extract_keywords_from_invoice(pdf_text)
-        #parsed_data = parse_extracted_data(llm_output)
-        #parsed_data['File Name'] = pdf.name
-        #parsed_data['Original Total_Amount'] = parsed_data.get("Total_Amount", "")  # Preserve original value with $
-        
-        # Convert to float for calculation
-        #parsed_data['Total_Amount'] = extract_cost(parsed_data['Total_Amount'])
-        
-       # extracted_data.append(parsed_data)
-    
-    #df = pd.DataFrame(extracted_data)
-    #total = df['Total_Amount'].sum()
-    
-    #return total, df
+def add_dollar_sign(df):
+    if "Total_Amount" in df.columns:
+        df["Total_Amount"] = df["Total_Amount"].apply(lambda x: f"${x:,.2f}")
+    return df
 
 
 
