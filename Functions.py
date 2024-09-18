@@ -19,7 +19,7 @@ def extract_keywords_from_invoice(invoice_text):
     messages = [
         {"role": "system", "content": "You are an expert at extracting key information from invoices."},
         {"role": "user",
-         "content": "Vendor Name is not Thilak Company. Please find the other name. Extract the following information from the invoice:\n- Invoice Number\n- Vendor Name\n- Total Amount\n- Invoice Date\n\nInvoice content:\n{invoice_text}"}
+         "content": f"The Vendor Name is not Thilak Company. Please find the other name which is the vendor name. Extract the following information from the invoice:\n- Invoice Number\n- Vendor Name\n- Invoice Date\n- Total Amount\n- Tax Amount\n- Vendor Address\n- Description\n\n{invoice_text}"}
     ]
 
     response = openai.ChatCompletion.create(
@@ -29,7 +29,15 @@ def extract_keywords_from_invoice(invoice_text):
         max_tokens=500
     )
 
-    return response['choices'][0]['message']['content']
+    # Extract only the required information
+    llm_output = response['choices'][0]['message']['content']
+
+    # Filter only the lines with the required fields
+    required_fields = ['Invoice Number', 'Vendor Name', 'Invoice Date','Total Amount','Tax Amount','Vendor Address','Description']
+    filtered_output = "\n".join(
+        [line for line in llm_output.split('\n') if any(field in line for field in required_fields)])
+
+    return filtered_output
 
 
 def parse_extracted_data(llm_output):
@@ -50,16 +58,8 @@ def convert_df_to_csv(df):
     return output
 
 
-def extract_cost(value):
-    if isinstance(value, str):
-        # If the value is a string, remove $ and commas, then convert to float
-        return float(value.replace('$', '').replace(',', ''))
-    elif isinstance(value, (int, float)):
-        # If it's already a numeric type, return it as a float
-        return float(value)
-    else:
-        # If it's neither string nor numeric, return NaN or handle as needed
-        return None
+def extract_cost(df):
+    return float(df.replace('$', '').replace(',', ''))
 
 
 
@@ -68,7 +68,7 @@ def get_details(pdf_docs):
     for pdf in pdf_docs:
         pdf_text = extract_text_from_pdf(pdf)
         llm_output = extract_keywords_from_invoice(pdf_text)
-        print("LLM_output",llm_output)
+        print("LLM-Output",llm_output)
         parsed_data = parse_extracted_data(llm_output)
         parsed_data['File Name'] = pdf.name
         extracted_data.append(parsed_data)
@@ -93,9 +93,12 @@ def add_dollar_sign(df):
         df["Total_Amount"] = df["Total_Amount"].map(format_amount)
     return df
 
-
-
-
+# Function to format all numeric columns as monetary values
+def add_dollar_sign_to_all_numeric(df):
+    # Apply the custom function to each numeric column in the DataFrame
+    for col in df.select_dtypes(include=["float", "int"]).columns:
+        df[col] = df[col].map(format_amount)
+    return df
 
 
 def get_tax_bracket(net_income):
