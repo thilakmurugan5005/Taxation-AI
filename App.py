@@ -40,7 +40,7 @@ def main():
                     st.session_state.income_table = income_table
                     st.session_state.total_expenses = total_expenses
                     st.session_state.expenses_data = expenses_data
-                    st.session_state.income_table = income_table
+                    st.session_state.expenses_table = expenses_table
                     
 
                 st.success("Processing Complete")
