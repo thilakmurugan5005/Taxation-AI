@@ -1,4 +1,6 @@
 from PyPDF2 import PdfReader
+import openai
+import pandas as pd
 
 def extract_text_from_pdf(pdf):
     pdf_reader = PdfReader(pdf)
