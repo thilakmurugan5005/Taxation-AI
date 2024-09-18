@@ -16,7 +16,7 @@ api_key = st.secrets["OPENAI_API_KEY"]
 email_address = st.secrets["EMAIL_ADDRESS"]
 email_password = st.secrets["EMAIL_PASSWORD"]
 
-st.set_page_config(page_title="Docurative AI", layout="wide")
+st.set_page_config(page_title="Taxation-AI", layout="wide")
 
 
 def extract_text_from_pdf(pdf):
