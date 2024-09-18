@@ -18,7 +18,7 @@ def extract_text_from_pdf(pdf):
 def extract_keywords_from_invoice(invoice_text):
     messages = [
         {"role": "system", "content": "You are an expert at extracting key information from invoices."},
-        {"role": "user",
+        {"role": "user","content": "Vendor Name is not Thilak Company. Please find the other name."
          "content": f"Extract the following information from the invoice:\n- Invoice Number\n- Vendor Name\n- Total Amount\n- Invoice Date\n\nInvoice content:\n{invoice_text}"}
     ]
 
