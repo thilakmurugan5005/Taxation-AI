@@ -27,7 +27,7 @@ def main():
 
         if st.button("Submit & Process", key="process_button"):
             if expenses_pdf_docs and income_pdf_docs:
-                with st.spinner("Processing..."):
+                with st.spinner("Calculating... 🔄"):
                     total_income, income_data = get_details(income_pdf_docs)
                     total_expenses, expenses_data = get_details(expenses_pdf_docs)
 
