@@ -12,95 +12,13 @@ from email.mime.base import MIMEBase
 from email import encoders
 from email.mime.text import MIMEText
 from Send_email import send_email_with_attachment
+from Functions import *
 
 api_key = st.secrets["OPENAI_API_KEY"]
 email_address = st.secrets["EMAIL_ADDRESS"]
 email_password = st.secrets["EMAIL_PASSWORD"]
 
-st.set_page_config(page_title="Docurative AI", layout="wide")
-
-
-def extract_text_from_pdf(pdf):
-    pdf_reader = PdfReader(pdf)
-    text = ""
-    for page in pdf_reader.pages:
-        text += page.extract_text()
-    return text
-
-
-def extract_keywords_from_invoice(invoice_text):
-    messages = [
-        {"role": "system", "content": "You are an expert at extracting key information from invoices."},
-        {"role": "user",
-         "content": f"Extract the following information from the invoice:\n- Invoice Number\n- Vendor Name\n- Total Amount\n- Invoice Date\n\nInvoice content:\n{invoice_text}"}
-    ]
-
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        api_key=api_key,
-        messages=messages,
-        max_tokens=500
-    )
-
-    return response['choices'][0]['message']['content']
-
-
-def parse_extracted_data(llm_output):
-    data = {}
-    for line in llm_output.split('\n'):
-        if ':' in line:
-            key, value = line.split(':', 1)
-            clean_key = key.strip().replace('-', '').strip().replace(' ', '_')
-            clean_value = value.strip()
-            data[clean_key] = clean_value
-    return data
-
-
-def convert_df_to_csv(df):
-    output = BytesIO()
-    df.to_csv(output, index=False)
-    output.seek(0)
-    return output
-
-
-def extract_cost(df):
-    return float(df.replace('$', '').replace(',', ''))
-
-
-def get_details(pdf_docs):
-    extracted_data = []
-    for pdf in pdf_docs:
-        pdf_text = extract_text_from_pdf(pdf)
-        llm_output = extract_keywords_from_invoice(pdf_text)
-        parsed_data = parse_extracted_data(llm_output)
-        parsed_data['File Name'] = pdf.name
-        extracted_data.append(parsed_data)
-    df = pd.DataFrame(extracted_data)
-    df['Total_Amount'] = df["Total_Amount"].apply(extract_cost)
-    total = df['Total_Amount'].sum()
-    return total, df
-
-
-def get_tax_bracket(net_income):
-    tax = 0
-    tax_percentage = 0
-    if 0 < net_income < 100000:
-        tax = .21
-        tax_percentage = "21%"
-    elif 100000 < net_income < 200000:
-        tax = .34
-        tax_percentage = "34%"
-    return tax, tax_percentage
-
-
-def zip_files(file_data_dict):
-    """Create an in-memory zip file containing the provided CSV files."""
-    zip_buffer = BytesIO()
-    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
-        for filename, filedata in file_data_dict.items():
-            zf.writestr(filename, filedata.getvalue())
-    zip_buffer.seek(0)
-    return zip_buffer
+st.set_page_config(page_title="Taxation-AI", layout="wide")
 
 
 def main():
