@@ -2,6 +2,8 @@ from PyPDF2 import PdfReader
 import openai
 import pandas as pd
 
+api_key = st.secrets["OPENAI_API_KEY"]
+
 def extract_text_from_pdf(pdf):
     pdf_reader = PdfReader(pdf)
     text = ""
