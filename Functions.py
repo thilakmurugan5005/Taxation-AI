@@ -75,6 +75,7 @@ def add_dollar_sign(df):
 
 
 
+
 def get_tax_bracket(net_income):
     tax = 0
     tax_percentage = 0
