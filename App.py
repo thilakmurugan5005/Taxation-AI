@@ -138,15 +138,13 @@ def main():
 
     with st.sidebar:
         st.title("Invoices - Income")
-        expenses_pdf_docs = st.file_uploader("Upload your Income Invoice PDF Files",
+        income_pdf_docs = st.file_uploader("Upload your Income Invoice PDF Files",
                                              accept_multiple_files=True, key="pdf_uploader")
 
         st.title("Invoices - Expense")
-        income_pdf_docs = st.file_uploader("Upload your Expense Invoice PDF Files",
+        expenses_pdf_docs = st.file_uploader("Upload your Expense Invoice PDF Files",
                                            accept_multiple_files=True, key="pdf_uploader1")
 
-        # Input field for email
-        # receiver_email = st.text_input("Enter your email address to receive the ZIP file")
 
         if st.button("Submit & Process", key="process_button"):
             if expenses_pdf_docs and income_pdf_docs:
