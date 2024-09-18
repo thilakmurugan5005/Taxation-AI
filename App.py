@@ -124,9 +124,9 @@ def main():
             )
             # Input field for email
             receiver_email = st.chat_input("Enter your email address to receive the ZIP file")
-            # Email functionality
-            if receiver_email:
-                send_email_with_attachment(receiver_email, zip_buffer)
+            with st.spinner("Sending Email..🔄"):
+                if receiver_email:
+                    send_email_with_attachment(receiver_email, zip_buffer)
 
 
 if __name__ == "__main__":
