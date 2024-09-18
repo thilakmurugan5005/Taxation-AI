@@ -138,7 +138,7 @@ def main():
 
     with st.sidebar:
         st.title("Invoices - Income")
-         income_pdf_docs = st.file_uploader("Upload your Income Invoice PDF Files",
+        income_pdf_docs = st.file_uploader("Upload your Income Invoice PDF Files",
                                              accept_multiple_files=True, key="pdf_uploader")
 
         st.title("Invoices - Expense")
