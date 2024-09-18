@@ -2,6 +2,7 @@ from PyPDF2 import PdfReader
 import openai
 import pandas as pd
 import streamlit as st
+from io import BytesIO
 
 api_key = st.secrets["OPENAI_API_KEY"]
 
