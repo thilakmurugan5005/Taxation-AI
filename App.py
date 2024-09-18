@@ -2,9 +2,7 @@ import streamlit as st
 import os
 from Send_email import send_email_with_attachment
 from Functions import *
-
-
-
+import pandas as pd  
 
 st.set_page_config(page_title="Taxation-AI", layout="wide")
 
@@ -12,72 +10,52 @@ st.set_page_config(page_title="Taxation-AI", layout="wide")
 def main():
     st.header("TAXATION - AI")
 
+    # Initialize session state for showing the intro
     if "intro_shown" not in st.session_state:
         st.session_state.intro_shown = False
+    if "processing_complete" not in st.session_state:
+        st.session_state.processing_complete = False
 
     with st.sidebar:
         st.title("Invoices - Income")
         income_pdf_docs = st.file_uploader("Upload your Income Invoice PDF Files",
-                                             accept_multiple_files=True, key="pdf_uploader")
+                                           accept_multiple_files=True, key="pdf_uploader")
 
         st.title("Invoices - Expense")
         expenses_pdf_docs = st.file_uploader("Upload your Expense Invoice PDF Files",
-                                           accept_multiple_files=True, key="pdf_uploader1")
-
-        # Input field for email
-        # receiver_email = st.text_input("Enter your email address to receive the ZIP file")
+                                             accept_multiple_files=True, key="pdf_uploader1")
 
         if st.button("Submit & Process", key="process_button"):
             if expenses_pdf_docs and income_pdf_docs:
                 with st.spinner("Processing..."):
                     total_income, income_data = get_details(income_pdf_docs)
                     total_expenses, expenses_data = get_details(expenses_pdf_docs)
-                    
 
                     # Store results in session state
                     st.session_state.total_income = total_income
                     st.session_state.income_data = income_data
                     st.session_state.total_expenses = total_expenses
                     st.session_state.expenses_data = expenses_data
-                    
-
+                    st.session_state.intro_shown = False  # Hide intro
+                    st.session_state.processing_complete = True  # Mark processing as complete
                 st.success("Processing Complete")
-                st.session_state.intro_shown = True  # Set to True after processing
             else:
                 st.error("Please upload at least one PDF file.")
 
-    if not st.session_state.intro_shown:
-        st.markdown("""
-        ## Get instant Tax insights from your Invoices
-
-
-
-        ### How It Works
-
-        Follow these simple steps to get Tax insights:
-
-        1. **Upload Your Invoices**: The system accepts multiple Invoice PDF files at once, analyzing the content to provide comprehensive insights.
-
-        2. **Also download/email**: After processing the documents, you can download or send email of the analyzed Invoice insights.
-        """)
-
-    # Display results if they exist in session state
-    if "total_expenses" in st.session_state and "total_income" in st.session_state:
+    # Display results after processing is complete
+    if st.session_state.processing_complete:
         st.subheader("Financial Summary")
         with st.spinner("Calculating... 🔄"):
-            
-
-            # Retrieve financial data
+            # Retrieve financial data from session state
             total_income = st.session_state.total_income
             income_data = st.session_state.income_data
             total_expenses = st.session_state.total_expenses
             expenses_data = st.session_state.expenses_data
-            
-            
 
             net_income = total_income - total_expenses
             tax, tax_percentage = get_tax_bracket(net_income)
 
+            # Display financial metrics
             col1, col2 = st.columns(2)
             with col1:
                 st.metric(label="Gross Income", value=f"${total_income}")
@@ -113,7 +91,7 @@ def main():
             # Format the "Total_Amount" column with $ sign in each DataFrame
             income_data = add_dollar_sign(income_data)
             expenses_data = add_dollar_sign(expenses_data)
-            summary_df = add_dollar_sign(summary_df)
+            summary_df = add_dollar_sign_to_all_numeric(summary_df)
 
             # Convert DataFrames to CSV
             income_csv = convert_df_to_csv(income_data)
@@ -134,11 +112,29 @@ def main():
                 file_name="financial_data.zip",
                 mime="application/zip"
             )
+
             # Input field for email
-            receiver_email = st.chat_input("Enter your email address to receive the ZIP file")
-            with st.spinner("Sending Email..🔄"):
-                if receiver_email:
+            receiver_email = st.text_input("Enter your email address to receive the ZIP file")
+
+            # Add send button
+            if receiver_email and st.button("Send Email"):
+                with st.spinner("Sending Email..🔄"):
                     send_email_with_attachment(receiver_email, zip_buffer)
+                    st.success("Email sent successfully!")
+
+    # Show intro only if no processing is done yet
+    if not st.session_state.processing_complete:
+        st.markdown("""
+        ## Get instant Tax insights from your Invoices
+
+        ### How It Works
+
+        Follow these simple steps to get Tax insights:
+
+        1. **Upload Your Invoices**: The system accepts multiple Invoice PDF files at once, analyzing the content to provide comprehensive insights.
+
+        2. **Download/Email Results**: After processing the documents, you can download or email the analyzed Invoice insights.
+        """)
 
 
 if __name__ == "__main__":
