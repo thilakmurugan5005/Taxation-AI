@@ -1,8 +1,6 @@
 import streamlit as st
 import os
-from dotenv import load_dotenv
-import openai
-import pandas as pd
+
 from io import BytesIO
 import zipfile
 import smtplib
