@@ -1,5 +1,4 @@
 import streamlit as st
-from PyPDF2 import PdfReader
 import os
 from dotenv import load_dotenv
 import openai
