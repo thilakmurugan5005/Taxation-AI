@@ -70,13 +70,20 @@ def get_details(pdf_docs):
 
 # Define a separate function to format the amount
 def format_amount(value):
-    return "${:,.2f}".format(value)
+    try:
+        # Convert the value to a float first, then format it with a $ sign
+        return "${:,.2f}".format(float(value))
+    except ValueError:
+        # If conversion to float fails, return the value as it is (for non-numeric cases)
+        return value
 
 # Function to format "Total_Amount" column without using lambda
 def add_dollar_sign(df):
     if "Total_Amount" in df.columns:
-        df["Total_Amount"] = df["Total_Amount"].map(format_amount)  # Apply the custom function
+        # Apply the custom function to each element in the Total_Amount column
+        df["Total_Amount"] = df["Total_Amount"].map(format_amount)
     return df
+
 
 
 
