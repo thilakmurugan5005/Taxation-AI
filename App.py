@@ -11,7 +11,7 @@ from email.mime.text import MIMEText
 from Send_email import send_email_with_attachment
 from Functions import *
 
-api_key = st.secrets["OPENAI_API_KEY"]
+
 email_address = st.secrets["EMAIL_ADDRESS"]
 email_password = st.secrets["EMAIL_PASSWORD"]
 
