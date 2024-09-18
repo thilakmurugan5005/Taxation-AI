@@ -86,7 +86,7 @@ def get_tax_bracket(net_income):
     if 0 < net_income < 100000:
         tax = .21
         tax_percentage = "21%"
-    elif 100000 < net_income < 200000
+    if 100000 < net_income < 200000
         tax = .34
         tax_percentage = "34%"
     return tax, tax_percentage
