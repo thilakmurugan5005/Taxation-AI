@@ -50,8 +50,17 @@ def convert_df_to_csv(df):
     return output
 
 
-def extract_cost(df):
-    return float(df.replace('$', '').replace(',', ''))
+def extract_cost(value):
+    if isinstance(value, str):
+        # If the value is a string, remove $ and commas, then convert to float
+        return float(value.replace('$', '').replace(',', ''))
+    elif isinstance(value, (int, float)):
+        # If it's already a numeric type, return it as a float
+        return float(value)
+    else:
+        # If it's neither string nor numeric, return NaN or handle as needed
+        return None
+
 
 
 def get_details(pdf_docs):
