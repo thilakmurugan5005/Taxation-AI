@@ -1,15 +1,10 @@
 import streamlit as st
 import os
-
-
-
-
 from Send_email import send_email_with_attachment
 from Functions import *
 
 
-email_address = st.secrets["EMAIL_ADDRESS"]
-email_password = st.secrets["EMAIL_PASSWORD"]
+
 
 st.set_page_config(page_title="Taxation-AI", layout="wide")
 
